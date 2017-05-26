@@ -49,8 +49,8 @@ double get_time(void){
 int  test_order_r(){  //顺序写
     char *buf_w=NULL;
     char *buf_r=NULL;
-   // const int naddrs = geo->nplanes * geo->nsectors;
-    struct nvm_addr addrs[1];
+    const int naddrs = geo->nplanes * geo->nsectors;
+    struct nvm_addr addrs[naddrs];
     struct nvm_ret ret;               //返回状态
     ssize_t res;
     size_t buf_w_nbytes, buf_r_nbytes;
@@ -59,16 +59,51 @@ int  test_order_r(){  //顺序写
 
     nvm_addr_pr(blk_addr);
 
-    buf_w_nbytes = 256 * geo->page_nbytes;
+    buf_w_nbytes = 2048* geo->page_nbytes;     //开辟8M数据区
     buf_w = nvm_buf_alloc(geo, buf_w_nbytes);	// Setup buffers
     if (!buf_w) {
         printf("error!cant alloc buf_w!\n");
     }
-
     nvm_buf_fill(buf_w, buf_w_nbytes);
+
+    /* Erase */
+    if (pmode) {
+        addrs[0].ppa = blk_addr.ppa;
+    } else {
+        for (size_t pl = 0; pl < geo->nplanes; ++pl) {
+            addrs[pl].ppa = blk_addr.ppa;
+            addrs[pl].g.pl = pl;
+        }
+    }
+
+    res = nvm_addr_erase(dev, addrs, pmode ? 1 : geo->nplanes, pmode, &ret);
+    if (res < 0) {
+             printf("erase error!");
+    }
+
     double start_time=0.0,end_time=0.0;
     start_time= get_time();
-    res = nvm_addr_write(dev, addrs, 1, buf_w, NULL, pmode, &ret);
+
+    /* Write */
+    for (size_t pg = 0; pg < geo->npages; ++pg) {
+        for (int i = 0; i < naddrs; ++i) {
+            addrs[i].ppa = blk_addr.ppa;
+
+            addrs[i].g.pg = pg;
+            addrs[i].g.sec = i % geo->nsectors;
+            addrs[i].g.pl = (i / geo->nsectors) % geo->nplanes;
+        }
+        res = nvm_addr_write(dev, addrs, naddrs, buf_w, NULL, pmode, &ret);
+        if (res < 0) {
+            printf("Write failure");
+            free(buf_w);
+        }
+    }
+
+    //运行时间
+ //   double start_time=0.0,end_time=0.0;
+ //   start_time= get_time();
+ //   res = nvm_addr_write(dev, addrs, naddrs, buf_w, NULL, pmode, &ret);
     end_time= get_time();
     printf("cost time :%.6lf\n",end_time-start_time);
     return 0;
