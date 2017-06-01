@@ -2,6 +2,10 @@
 // Created by lhj on 17-6-1.
 //
 
+//
+// Created by lhj on 17-6-1.
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -82,24 +86,16 @@ int  test_order_w() {  //顺序写
     nvm_buf_fill01(buf_w, buf_w_nbytes);
 
     /* Erase */
-   
-        addrs[0].ppa=0;
 
-        addrs[0].g.lun=0;
-        addrs[0].g.pl=0;
+    addrs[0].ppa=0;
+    addrs[0].g.lun=0;
+    addrs[0].g.pl=0;
 
-    res = nvm_addr_erase(dev, addrs, 1, pmode, &ret);
-    if (res < 0) {
-        printf("erase error!\n");
-    }
-    /*erase*/
- 
-        addrs[1].ppa=0;
-        addrs[1].g.lun=1;
-        addrs[1].g.pl=0;
+    addrs[1].ppa=0;
+    addrs[1].g.lun=1;
+    addrs[1].g.pl=0;
 
-
-    res = nvm_addr_erase(dev, addrs, 2， pmode, &ret);
+    res = nvm_addr_erase(dev, addrs, 2, pmode, &ret);
     if (res < 0) {
         printf("erase error!\n");
     }
@@ -192,3 +188,4 @@ int main() {
     teardown();
     return 0;
 }
+
