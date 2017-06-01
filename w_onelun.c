@@ -157,7 +157,7 @@ int  test_order_w() {  //顺序写
         }
 
         // printf("%lu KB\n", buf_r_nbytes / 1024);
-         printf("pg: %.8192s\n", buf_r);
+        // printf("pg: %.8192s\n", buf_r);
         //printf("pg:%lu: %s\n", pg,buf_r);
     }
 
