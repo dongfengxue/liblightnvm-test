@@ -82,11 +82,10 @@ int  test_order_w() {  //顺序写
 
     /* Erase */
 
-        addrs[0].ppa=0;
+     addrs[0].ppa=0;
+     addrs[0].g.pl=0;
+     addrs[0].g.lun=0;
 
-        addrs[0].g.lun=0;
-        addrs[0].g.pl=0;
- 
     res = nvm_addr_erase(dev, addrs, 1, pmode, &ret);
     if (res < 0) {
         printf("erase error!");
