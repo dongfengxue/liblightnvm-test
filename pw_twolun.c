@@ -82,28 +82,24 @@ int  test_order_w() {  //顺序写
     nvm_buf_fill01(buf_w, buf_w_nbytes);
 
     /* Erase */
-    for(int i=0;i<naddrs/2;i++){
-        addrs[i].ppa=0;
+   
+        addrs[0].ppa=0;
 
-        addrs[i].g.lun=0;
-        addrs[i].g.pl=0;
-        addrs[i].g.blk=block;
-    }
+        addrs[0].g.lun=0;
+        addrs[0].g.pl=0;
 
-    res = nvm_addr_erase(dev, addrs, 32, pmode, &ret);
+    res = nvm_addr_erase(dev, addrs, 1, pmode, &ret);
     if (res < 0) {
         printf("erase error!\n");
     }
     /*erase*/
-    for(int i=naddrs/2;i<naddrs;i++){
-        addrs[i].ppa=0;
+ 
+        addrs[1].ppa=0;
+        addrs[1].g.lun=1;
+        addrs[1].g.pl=0;
 
-        addrs[i].g.lun=1;
-        addrs[i].g.pl=0;
-        addrs[i].g.blk=block;
-    }
 
-    res = nvm_addr_erase(dev, addrs, 64, pmode, &ret);
+    res = nvm_addr_erase(dev, addrs, 2， pmode, &ret);
     if (res < 0) {
         printf("erase error!\n");
     }
