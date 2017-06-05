@@ -2,17 +2,6 @@
 // Created by lhj on 17-6-1.
 //
 
-//
-// Created by lhj on 17-6-1.
-//
-
-//
-// Created by lhj on 17-6-1.
-//
-
-//
-// Created by lhj on 17-5-31.
-//
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -93,50 +82,30 @@ int  test_order_w() {  //顺序写
     nvm_buf_fill01(buf_w, buf_w_nbytes);
 
     /* Erase  lun 0*/
-    for(int i=0;i<naddrs/4;i++){   //lun 0
-        addrs[i].ppa=0;
+        addrs[0].ppa=0;
 
-        addrs[i].g.lun=0;
-        addrs[i].g.pl=0;
-        addrs[i].g.blk=block;
-    }
-    res = nvm_addr_erase(dev, addrs, 16, pmode, &ret);
-    if (res < 0) {
-        printf("erase error 0!\n");
-    }
+        addrs[0].g.lun=0;
+        addrs[0].g.pl=0;
     /*lun 1*/
-    for(int i=naddrs/4;i<naddrs/2;i++){   //lun 1
-        addrs[i].ppa=0;
+        addrs[1].ppa=0;
 
-        addrs[i].g.lun=1;
-        addrs[i].g.pl=0;
-        addrs[i].g.blk=block;
-    }
-    res = nvm_addr_erase(dev, addrs, 32, pmode, &ret);
-    if (res < 0) {
-        printf("erase error! 1\n");
-    }
+        addrs[1].g.lun=1;
+        addrs[1].g.pl=0;
+
 /*lun 2*/
-    for(int i=naddrs/2;i<(naddrs/4)*3;i++){   //lun 2
-        addrs[i].ppa=0;
 
-        addrs[i].g.lun=2;
-        addrs[i].g.pl=0;
-        addrs[i].g.blk=block;
-    }
-    res = nvm_addr_erase(dev, addrs, 48, pmode, &ret);
-    if (res < 0) {
-        printf("erase error!\n");
-    }
-    /*lun 3*/
-    for(int i=(naddrs/4)*3;i<naddrs;i++){   //lun 3
-        addrs[i].ppa=0;
+        addrs[2].ppa=0;
 
-        addrs[i].g.lun=3;
-        addrs[i].g.pl=0;
-        addrs[i].g.blk=block;
-    }
-    res = nvm_addr_erase(dev, addrs, 64, pmode, &ret);
+        addrs[2].g.lun=2;
+        addrs[2].g.pl=0;
+ /*lun 3*/
+
+        addrs[3].ppa=0;
+
+        addrs[3].g.lun=3;
+        addrs[3].g.pl=0;
+    
+   res = nvm_addr_erase(dev, addrs, 4, pmode, &ret);
     if (res < 0) {
         printf("erase error!");
     }
