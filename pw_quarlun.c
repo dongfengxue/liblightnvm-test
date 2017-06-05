@@ -141,8 +141,7 @@ int  test_order_w() {  //顺序写
         printf("erase error!");
     }
 
-    double start_time = 0.0, end_time = 0.0;
-    start_time = get_time();
+   
 
     /* Write */
 
@@ -192,6 +191,9 @@ int  test_order_w() {  //顺序写
    /* for (int i = 0; i < naddrs; ++i) {
         nvm_addr_pr(addrs[i]);
     }*/
+     double start_time = 0.0, end_time = 0.0;
+    start_time = get_time();
+    
     res = nvm_addr_write(dev, addrs, naddrs, buf_w, NULL, pmode, &ret);
     if (res < 0) {
         printf("Write failure");
