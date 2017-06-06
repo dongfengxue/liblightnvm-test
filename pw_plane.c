@@ -70,7 +70,7 @@ int  test_order_w() {  //顺序写
     struct nvm_ret ret;               //返回状态
     ssize_t res;
     size_t buf_w_nbytes, buf_r_nbytes;
-    int pmode = NVM_FLAG_PMODE_SNGL;
+    int pmode = NVM_FLAG_PMODE_DUAL;
     int failed = 1;
 
     // nvm_addr_pr(blk_addr);
