@@ -132,7 +132,9 @@ int  test_order_w() {  //顺序写
      }*/
     double start_time = 0.0, end_time = 0.0;
     start_time = get_time();
+
     res = nvm_addr_write(dev, addrs, naddrs, buf_w, NULL, pmode, &ret);
+
     if (res < 0) {
         printf("Write failure");
         free(buf_w);
@@ -162,6 +164,7 @@ int  test_order_w() {  //顺序写
 
                 addr[sec].g.lun = 0;
                 addr[sec].g.blk = block;
+                addr[sec].g.pl=plane;
                 addr[sec].g.pg = pg;
                 addr[sec].g.sec = sec;
             }
@@ -174,7 +177,7 @@ int  test_order_w() {  //顺序写
             }
 
             // printf("%lu KB\n", buf_r_nbytes / 1024);
-            //printf("pg: %.8192s\n", buf_r);
+            printf("pl %d: %.8192s\n",plane,buf_r);
             //printf("pg:%lu: %s\n", pg,buf_r);
         }
     }
